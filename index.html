@@ -27,47 +27,45 @@
             width: 90%;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            overflow-x: hidden; /* Importante para las animaciones internas */
+            overflow: hidden; /* Importante para el borde */
             text-align: center;
             position: relative;
             z-index: 10;
         }
         
-        /* --- Contenido Principal --- */
+        /* --- Contenido Principal (padding lateral) --- */
         .content {
-            /* ===== CAMBIO: Padding vertical reducido ===== */
-            padding: 15px 25px;
+            padding: 0 25px 15px 25px; /* Padding lateral y un poco abajo */
         }
 
-        /* --- Estilo para el logo del encabezado --- */
+        /* --- LOGO HOT WHEELS ENCABEZADO (FUERA DEL CONTENT PARA PEGAR) --- */
+        .header-logo-container {
+            background-color: #DA2128; /* Rojo Hot Wheels */
+            padding: 10px 0; /* Un poco de padding vertical */
+            margin-bottom: 0; /* ¡Pegado! */
+        }
         .hotwheels-logo-header {
             max-width: 70%; 
             height: auto;
-            /* ===== CAMBIO: Margen inferior casi eliminado ===== */
-            margin: 0 auto 5px auto; 
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            margin: 0 auto; /* Centrado y sin márgenes verticales */
+            display: block;
+            /* Se eliminó la animación 'pulse' */
         }
 
         .content h2 {
             font-family: 'Bangers', cursive;
             font-size: 2.5rem; 
             color: #005A9C;
-            /* ===== CAMBIO: Sin margen vertical ===== */
-            margin: 0;
+            margin: 0; /* ¡Pegado! */
+            padding-top: 5px; 
         }
 
         .content p {
             font-size: 1.1rem; 
             color: #333;
             line-height: 1.5;
-            /* ===== CAMBIO: Margen vertical mínimo ===== */
-            margin: 5px 0;
+            margin: 0; /* ¡Pegado! */
+            padding-top: 5px; 
         }
 
         /* --- Sección de Detalles --- */
@@ -75,13 +73,13 @@
             background-color: #f4f4f4;
             border-radius: 15px;
             padding: 15px; 
-            /* ===== CAMBIO: Margen vertical mínimo ===== */
-            margin-top: 5px;
+            margin-top: 5px; /* ¡Pegado! */
+            margin-bottom: 5px; /* ¡Pegado! */
         }
 
         .details-box p {
             font-size: 1rem; 
-            margin: 5px 0; /* Margen reducido */
+            margin: 3px 0; /* Margen muy reducido */
             font-weight: bold;
         }
         
@@ -99,8 +97,8 @@
             text-decoration: none;
             padding: 10px 25px; 
             border-radius: 50px; 
-            /* ===== CAMBIO: Margen superior mínimo ===== */
-            margin-top: 10px;
+            margin-top: 10px; 
+            margin-bottom: 0; 
             border: 3px solid #DA2128;
             text-shadow: 2px 2px #000000;
             transition: transform 0.2s ease-out;
@@ -111,49 +109,65 @@
             background-color: #fb8c00;
         }
 
-        /* --- Estilos para los autos divisores --- */
+        /* --- Estilos para los autos divisores (ESTÁTICOS) --- */
         .car-divider {
             width: 70%; 
             max-width: 250px; 
             height: auto;
-            /* ===== CAMBIO: Margen vertical mínimo ===== */
-            margin: 5px auto;
-            
-            /* Configuración de la animación */
-            opacity: 0; /* Empieza invisible */
-            transition: transform 0.8s ease-out 0.2s, opacity 0.8s ease-out 0.2s;
-        }
-
-        /* Posición inicial (fuera de lugar) */
-        .car-left {
-            transform: translateX(-100px);
-        }
-
-        .car-right {
-            transform: translateX(100px);
-        }
-
-        /* Estado final (cuando se activa por JS) */
-        .car-divider.active {
-            opacity: 1;
-            transform: translateX(0);
+            margin: 5px auto; /* Margen vertical mínimo */
+            /* Se eliminaron 'opacity', 'transition' y 'transform' */
         }
         
+        /* --- ESTILOS PARA EL MAPA --- */
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 75%; /* Proporción 4:3 (height/width) */
+            margin: 5px 0; /* Margen mínimo pegado */
+            border-radius: 10px; /* Bordes redondeados para el mapa */
+        }
+
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* --- Ajustes para móviles --- */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .content { padding: 0 15px 10px 15px; }
+            .header-logo-container { padding: 8px 0; }
+            .hotwheels-logo-header { max-width: 80%; }
+            .content h2 { font-size: 2rem; }
+            .content p { font-size: 1rem; }
+            .details-box { padding: 10px; }
+            .details-box p { font-size: 0.9rem; }
+            .cta-button { font-size: 1.4rem; padding: 8px 20px; }
+            .car-divider { width: 80%; max-width: 200px; }
+        }
+
     </style>
 </head>
 <body>
 
     <div class="invitation-card">
         
-        <div class="content">
-            
+        <div class="header-logo-container">
             <img src="hotwheels.png" alt="Logo Hot Wheels" class="hotwheels-logo-header">
+        </div>
+        
+        <div class="content">
             
             <p>¡Estás invitado a la carrera más divertida del año!</p>
             
             <h2>¡[Nombre del Niño] Cumple 6!</h2>
             
-            <img src="carro1.png" alt="Auto Hot Wheels 1" class="car-divider car-left">
+            <img src="carro1.png" alt="Auto Hot Wheels 1" class="car-divider">
             
             <div class="details-box" id="details-section">
                 <p><strong>🏁 CUÁNDO:</strong> El [Día] de [Mes]</p>
@@ -161,41 +175,27 @@
                 <p><strong>📍 LUGAR:</strong> En [Dirección o Nombre del Lugar]</p>
             </div>
 
-            <img src="carro2.png" alt="Auto Hot Wheels 2" class="car-divider car-right">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3734.331278912419!2d-100.4468603256001!3d20.615555400589146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d35a57a0c10979%3A0x8003669464b586e!2sParque%20Infantil%20La%20Mexiquita!5e0!3m2!1ses!2smx!4v1730076495048!5m2!1ses!2smx" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <img src="carro2.png" alt="Auto Hot Wheels 2" class="car-divider">
 
             <p>¡Habrá pastel, juegos y una pista de carreras GIGANTE! 🏎️</p>
 
-            <img src="carro3.png" alt="Auto Hot Wheels 3" class="car-divider car-left">
+            <img src="carro3.png" alt="Auto Hot Wheels 3" class="car-divider">
 
             <a href="https://wa.me/5211234567890?text=¡Hola!%20Confirmamos%20nuestra%20asistencia%20a%20la%20súper%20fiesta%20de%20[Nombre del Niño]!" class="cta-button" id="cta-button">
                 ¡Confirmar Asistencia!
             </a>
             
         </div>
-        
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            const animatedElements = document.querySelectorAll('.car-divider');
+        </div>
 
-            const observer = new IntersectionObserver( (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1 // Activa la animación cuando el 10% del auto sea visible
-            });
-
-            animatedElements.forEach(el => {
-                observer.observe(el);
-            });
-
-        });
-    </script>
-</body>
+    </body>
 </html>
