@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Invitación al Cumple de [Nombre del Niño]!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Estilos Generales --- */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #005A9C; /* Azul Hot Wheels */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative; /* Para posicionar los autos absolutos */
+            overflow-x: hidden; /* Evita scroll horizontal por los autos */
+        }
+
+        /* --- La Tarjeta de Invitación --- */
+        .invitation-card {
+            background-color: #ffffff;
+            border: 8px solid #F7941D; /* Naranja Hot Wheels */
+            border-radius: 25px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden; 
+            text-align: center;
+            position: relative;
+            z-index: 10; /* Para que la tarjeta esté encima de los autos */
+            padding-bottom: 70px; /* Espacio para el auto final */
+        }
+
+        /* --- Encabezado con Fuego --- */
+        .header {
+            background-color: #DA2128; /* Rojo Hot Wheels */
+            color: white;
+            padding: 10px;
+            position: relative;
+            display: flex; /* Para centrar la imagen */
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente */
+            min-height: 100px; /* Altura mínima para el logo */
+        }
+
+        .header h1 { /* Oculto, pero se queda por si acaso */
+            font-family: 'Bangers', cursive;
+            font-size: 3.5rem; 
+            color: #FCEE21; /* Amarillo Hot Wheels */
+            margin: 0;
+            text-shadow: 3px 3px #000000;
+            animation: pulse 1.5s infinite; 
+            display: none; /* Oculta el h1 original */
+        }
+
+        /* Estilo para el logo de Hot Wheels */
+        .hotwheels-logo {
+            max-width: 80%; /* Para que no sea demasiado grande */
+            height: auto;
+            display: block; /* Asegura que no tenga espacio extra abajo */
+            animation: pulse 1.5s infinite; /* El mismo pulso que el h1 */
+        }
+
+        /* Animación de pulso para el título */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Contenido Principal --- */
+        .content {
+            padding: 20px 30px;
+        }
+
+        .content h2 {
+            font-family: 'Bangers', cursive;
+            font-size: 2.8rem;
+            color: #005A9C;
+            margin: 10px 0;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            color: #333;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        /* --- Sección de Detalles --- */
+        .details-box {
+            background-color: #f4f4f4;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .details-box p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .details-box strong {
+            color: #DA2128; 
+        }
+
+        /* --- Botón de Confirmar (CTA) --- */
+        .cta-button {
+            display: inline-block;
+            background-color: #F7941D; 
+            color: #ffffff;
+            font-family: 'Bangers', cursive;
+            font-size: 1.8rem;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 50px; 
+            margin-top: 25px;
+            border: 3px solid #DA2128;
+            text-shadow: 2px 2px #000000;
+            transition: transform 0.2s ease-out;
+            margin-bottom: 20px; /* Para que no pegue con el auto final */
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1); 
+            background-color: #fb8c00;
+        }
+
+        /* --- Pista de Carreras Animada Inferior --- */
+        .race-track {
+            background-color: #444; 
+            border-top: 6px dashed #FCEE21; 
+            border-bottom: 6px dashed #FCEE21;
+            height: 70px;
+            position: relative;
+            margin-top: 30px; 
+        }
+
+        .race-track .car {
+            font-size: 50px;
+            position: absolute;
+            left: -60px; 
+            top: -5px;
+            animation: drive 4s linear infinite;
+        }
+
+        .race-track .finish-line {
+            font-size: 50px;
+            position: absolute;
+            right: 20px;
+            top: -5px;
+        }
+
+        @keyframes drive {
+            0% { left: -60px; }
+            100% { left: 110%; }
+        }
+
+        /* --- Estilos para los autos flotantes --- */
+        .floating-car {
+            position: absolute;
+            width: 150px; 
+            opacity: 0; 
+            transition: transform 1s ease-out, opacity 1s ease-out;
+            z-index: 5; 
+        }
+
+        /* Posiciones y direcciones iniciales */
+        .car-left {
+            left: -180px; 
+            transform: translateX(0) rotate(-10deg);
+        }
+
+        .car-right {
+            right: -180px; 
+            transform: translateX(0) rotate(10deg);
+        }
+
+        /* Clases para cuando el auto debe mostrarse (activado por JS) */
+        .car-left.active {
+            opacity: 1;
+            transform: translateX(250px) rotate(0deg); 
+        }
+
+        .car-right.active {
+            opacity: 1;
+            transform: translateX(-250px) rotate(0deg); 
+        }
+
+        /* Ajustes para pantallas más pequeñas (opcional) */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Menos padding en móviles */
+            }
+            .header {
+                min-height: 80px; 
+            }
+            .hotwheels-logo {
+                max-width: 90%;
+            }
+            .content {
+                padding: 15px 20px;
+            }
+            .content h2 {
+                font-size: 2.2rem;
+            }
+            .content p {
+                font-size: 1rem;
+            }
+            .cta-button {
+                font-size: 1.5rem;
+                padding: 10px 20px;
+            }
+            .floating-car {
+                width: 100px; 
+            }
+            /* Ajustes finos para las posiciones de los autos en móvil */
+            .floating-car[style*="top: 150px;"] { top: 120px !important; }
+            .floating-car[style*="top: 400px;"] { top: 300px !important; }
+            .floating-car[style*="top: 650px;"] { top: 500px !important; }
+
+             /* Ajustes para que los autos entren menos en pantallas pequeñas */
+            .car-left.active { transform: translateX(150px) rotate(0deg); }
+            .car-right.active { transform: translateX(-150px) rotate(0deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="invitation-card">
+        
+        <div class="header">
+            <img src="hotwheels.png" alt="Logo Hot Wheels" class="hotwheels-logo">
+            <h1>🔥 ¡Acelera! 🔥</h1> 
+        </div>
+        
+        <div class="content">
+            
+            <p>¡Estás invitado a la carrera más divertida del año!</p>
+            
+            <h2>¡[Nombre del Niño] Cumple 6!</h2>
+            
+            <div class="details-box" id="details-section">
+                <p><strong>🏁 CUÁNDO:</strong> El [Día] de [Mes]</p>
+                <p><strong>⏰ HORA:</strong> A las [Hora] PM</p>
+                <p><strong>📍 LUGAR:</strong> En [Dirección o Nombre del Lugar]</p>
+            </div>
+            
+            <p>¡Habrá pastel, juegos y una pista de carreras GIGANTE! 🏎️</p>
+            
+            <a href="https://wa.me/5211234567890?text=¡Hola!%20Confirmamos%20nuestra%20asistencia%20a%20la%20súper%20fiesta%20de%20[Nombre del Niño]!" class="cta-button" id="cta-button">
+                ¡Confirmar Asistencia!
+            </a>
+            
+        </div>
+        
+        <div class="race-track">
+            <div class="car">🏎️</div>
+            <div class="finish-line">🏁</div>
+        </div>
+
+    </div>
+
+    <img src="carro1.png" alt="Auto Hot Wheels Naranja" class="floating-car car-left" style="top: 150px;" data-scroll-offset="100">
+
+    <img src="carro2.png" alt="Auto Hot Wheels Verde" class="floating-car car-right" style="top: 400px;" data-scroll-offset="350">
+
+    <img src="carro3.png" alt="Auto Hot Wheels Amarillo" class="floating-car car-left" style="top: 650px;" data-scroll-offset="600">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingCars = document.querySelectorAll('.floating-car');
+
+            function checkScroll() {
+                // Obtiene la posición actual del scroll + la altura de la ventana visible
+                const scrollPosition = window.scrollY + window.innerHeight; 
+
+                floatingCars.forEach(car => {
+                    // Obtiene el offset (cuándo debe aparecer el auto) de sus datos
+                    const carOffset = parseInt(car.dataset.scrollOffset);
+
+                    // Si ya se ha pasado el punto de activación, el auto se activa
+                    if (scrollPosition > carOffset) {
+                        car.classList.add('active');
+                    } else {
+                        // Puedes comentar esta línea si prefieres que los autos NO desaparezcan al hacer scroll hacia arriba
+                        // car.classList.remove('active');
+                    }
+                });
+            }
+
+            // Agrega el evento para escuchar el scroll y llama a la función al cargar
+            window.addEventListener('scroll', checkScroll);
+            checkScroll(); 
+        });
+    </script>
+</body>
+</html>
