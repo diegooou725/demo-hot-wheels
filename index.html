@@ -35,19 +35,17 @@
         
         /* --- Contenido Principal (padding lateral) --- */
         .content {
-            padding: 0 25px 15px 25px; /* Padding lateral y un poco abajo */
+            /* ===== CAMBIO: Padding superior restaurado para el logo ===== */
+            padding: 15px 25px 15px 25px; 
         }
 
-        /* --- LOGO HOT WHEELS ENCABEZADO (FUERA DEL CONTENT PARA PEGAR) --- */
-        .header-logo-container {
-            background-color: #DA2128; /* Rojo Hot Wheels */
-            padding: 10px 0; /* Un poco de padding vertical */
-            margin-bottom: 0; /* ¡Pegado! */
-        }
+        /* --- Se eliminó .header-logo-container --- */
+
+        /* ===== CAMBIO: Logo ahora DENTRO del content ===== */
         .hotwheels-logo-header {
-            max-width: 70%; 
+            max-width: 60%; /* Reducido de 70% a 60% */
             height: auto;
-            margin: 0 auto; /* Centrado y sin márgenes verticales */
+            margin: 0 auto 5px auto; /* Centrado y con 5px de espacio abajo */
             display: block;
         }
 
@@ -108,31 +106,30 @@
             background-color: #fb8c00;
         }
 
-        /* --- Estilos para los autos divisores (ANIMADOS DE NUEVO) --- */
+        /* --- Estilos para los autos divisores (ANIMADOS) --- */
         .car-divider {
             width: 70%; 
             max-width: 250px; 
             height: auto;
             margin: 5px auto; /* Margen vertical mínimo */
             
-            /* Animación de nuevo */
             opacity: 0; 
             transition: transform 0.8s ease-out 0.2s, opacity 0.8s ease-out 0.2s;
         }
 
         /* Posición inicial (fuera de lugar) */
         .car-left {
-            transform: translateX(-100px); /* Empieza 100px a la izquierda */
+            transform: translateX(-100px); 
         }
 
         .car-right {
-            transform: translateX(100px); /* Empieza 100px a la derecha */
+            transform: translateX(100px); 
         }
 
         /* Estado final (cuando se activa por JS) */
         .car-divider.active {
-            opacity: 1; /* Se hace visible */
-            transform: translateX(0); /* Vuelve a su posición 0 (centrado) */
+            opacity: 1; 
+            transform: translateX(0); 
         }
         
         /* --- ESTILOS PARA EL MAPA --- */
@@ -157,9 +154,13 @@
         /* --- Ajustes para móviles --- */
         @media (max-width: 600px) {
             body { padding: 10px; }
-            .content { padding: 0 15px 10px 15px; }
-            .header-logo-container { padding: 8px 0; }
-            .hotwheels-logo-header { max-width: 80%; }
+            .content { padding: 10px 15px 10px 15px; } /* Padding superior de 10px */
+            
+            /* ===== CAMBIO: Logo en móvil ===== */
+            .hotwheels-logo-header { 
+                max-width: 70%; /* Reducido de 80% a 70% */
+            }
+
             .content h2 { font-size: 2rem; }
             .content p { font-size: 1rem; }
             .details-box { padding: 10px; }
@@ -174,12 +175,10 @@
 
     <div class="invitation-card">
         
-        <div class="header-logo-container">
-            <img src="hotwheels.png" alt="Logo Hot Wheels" class="hotwheels-logo-header">
-        </div>
-        
         <div class="content">
             
+            <img src="hotwheels.png" alt="Logo Hot Wheels" class="hotwheels-logo-header">
+
             <p>¡Estás invitado a la carrera más divertida del año!</p>
             
             <h2>¡[Nombre del Niño] Cumple 6!</h2>
@@ -224,10 +223,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // No es necesario unobserve si quieres que se reactiven al salir y volver a entrar
-                        // observer.unobserve(entry.target); 
                     } else {
-                        // Opcional: Remover 'active' cuando sale de vista para que se puedan animar de nuevo
                         entry.target.classList.remove('active');
                     }
                 });
