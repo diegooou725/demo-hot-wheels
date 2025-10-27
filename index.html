@@ -27,7 +27,7 @@
             width: 90%;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            overflow: hidden; /* Importante para el borde */
+            overflow-x: hidden; /* Importante para que los autos entren sin barra de scroll */
             text-align: center;
             position: relative;
             z-index: 10;
@@ -49,7 +49,6 @@
             height: auto;
             margin: 0 auto; /* Centrado y sin márgenes verticales */
             display: block;
-            /* Se eliminó la animación 'pulse' */
         }
 
         .content h2 {
@@ -109,13 +108,31 @@
             background-color: #fb8c00;
         }
 
-        /* --- Estilos para los autos divisores (ESTÁTICOS) --- */
+        /* --- Estilos para los autos divisores (ANIMADOS DE NUEVO) --- */
         .car-divider {
             width: 70%; 
             max-width: 250px; 
             height: auto;
             margin: 5px auto; /* Margen vertical mínimo */
-            /* Se eliminaron 'opacity', 'transition' y 'transform' */
+            
+            /* Animación de nuevo */
+            opacity: 0; 
+            transition: transform 0.8s ease-out 0.2s, opacity 0.8s ease-out 0.2s;
+        }
+
+        /* Posición inicial (fuera de lugar) */
+        .car-left {
+            transform: translateX(-100px); /* Empieza 100px a la izquierda */
+        }
+
+        .car-right {
+            transform: translateX(100px); /* Empieza 100px a la derecha */
+        }
+
+        /* Estado final (cuando se activa por JS) */
+        .car-divider.active {
+            opacity: 1; /* Se hace visible */
+            transform: translateX(0); /* Vuelve a su posición 0 (centrado) */
         }
         
         /* --- ESTILOS PARA EL MAPA --- */
@@ -167,7 +184,7 @@
             
             <h2>¡[Nombre del Niño] Cumple 6!</h2>
             
-            <img src="carro1.png" alt="Auto Hot Wheels 1" class="car-divider">
+            <img src="carro1.png" alt="Auto Hot Wheels 1" class="car-divider car-left">
             
             <div class="details-box" id="details-section">
                 <p><strong>🏁 CUÁNDO:</strong> El [Día] de [Mes]</p>
@@ -183,11 +200,12 @@
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
-            <img src="carro2.png" alt="Auto Hot Wheels 2" class="car-divider">
+            
+            <img src="carro2.png" alt="Auto Hot Wheels 2" class="car-divider car-right">
 
             <p>¡Habrá pastel, juegos y una pista de carreras GIGANTE! 🏎️</p>
 
-            <img src="carro3.png" alt="Auto Hot Wheels 3" class="car-divider">
+            <img src="carro3.png" alt="Auto Hot Wheels 3" class="car-divider car-left">
 
             <a href="https://wa.me/5211234567890?text=¡Hola!%20Confirmamos%20nuestra%20asistencia%20a%20la%20súper%20fiesta%20de%20[Nombre del Niño]!" class="cta-button" id="cta-button">
                 ¡Confirmar Asistencia!
@@ -195,7 +213,33 @@
             
         </div>
 
-        </div>
+    </div>
 
-    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const animatedElements = document.querySelectorAll('.car-divider');
+
+            const observer = new IntersectionObserver( (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // No es necesario unobserve si quieres que se reactiven al salir y volver a entrar
+                        // observer.unobserve(entry.target); 
+                    } else {
+                        // Opcional: Remover 'active' cuando sale de vista para que se puedan animar de nuevo
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Activa la animación cuando el 10% del auto sea visible
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+
+        });
+    </script>
+</body>
 </html>
