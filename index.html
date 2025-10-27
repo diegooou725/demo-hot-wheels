@@ -21,29 +21,59 @@
 
         /* --- La Tarjeta de Invitación --- */
         .invitation-card {
+            /* ===== CAMBIO: Textura de fondo añadida ===== */
             background-color: #ffffff;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='%23f0f0f0' fill-opacity='0.4'/%3E%3Cpath d='M20 20h20v20H20z' fill='%23f0f0f0' fill-opacity='0.4'/%3E%3C/svg%3E");
+            background-size: 20px 20px; /* Tamaño de la cuadrícula de la textura */
+            
             border: 8px solid #F7941D; /* Naranja Hot Wheels */
             border-radius: 25px;
             width: 90%;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            overflow-x: hidden; /* Importante para que los autos entren sin barra de scroll */
+            overflow: hidden; /* Importante para el borde y las animaciones */
             text-align: center;
             position: relative;
             z-index: 10;
+
+            /* ===== CAMBIO: Animación de borde añadida ===== */
+            position: relative; /* Necesario para el pseudo-elemento */
+        }
+
+        /* ===== NUEVO: Animación de borde brillante ===== */
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px;
+            right: -4px; bottom: -4px;
+            border: 4px solid transparent;
+            border-radius: 25px; /* Debe coincidir con el border-radius de la tarjeta */
+            z-index: -1;
+            animation: glow-border 3s linear infinite;
+        }
+
+        @keyframes glow-border {
+            0% {
+                border-color: #FCEE21; /* Amarillo Hot Wheels */
+                box-shadow: 0 0 10px #FCEE21, inset 0 0 10px #FCEE21;
+            }
+            50% {
+                border-color: #DA2128; /* Rojo Hot Wheels */
+                box-shadow: 0 0 20px #DA2128, inset 0 0 20px #DA2128;
+            }
+            100% {
+                border-color: #FCEE21;
+                box-shadow: 0 0 10px #FCEE21, inset 0 0 10px #FCEE21;
+            }
         }
         
         /* --- Contenido Principal (padding lateral) --- */
         .content {
-            /* ===== CAMBIO: Padding superior restaurado para el logo ===== */
             padding: 15px 25px 15px 25px; 
         }
 
-        /* --- Se eliminó .header-logo-container --- */
-
-        /* ===== CAMBIO: Logo ahora DENTRO del content ===== */
         .hotwheels-logo-header {
-            max-width: 60%; /* Reducido de 70% a 60% */
+            max-width: 60%; 
             height: auto;
             margin: 0 auto 5px auto; /* Centrado y con 5px de espacio abajo */
             display: block;
@@ -65,18 +95,35 @@
             padding-top: 5px; 
         }
 
+        /* --- NUEVO: Estilos del Contador Regresivo --- */
+        #countdown {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            color: #DA2128;
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px 0 0 0; /* Pegado debajo del h2 */
+            letter-spacing: 1.5px;
+        }
+        #countdown span {
+            color: #005A9C;
+            padding: 0 3px;
+        }
+        /* ------------------------------------------- */
+
         /* --- Sección de Detalles --- */
         .details-box {
             background-color: #f4f4f4;
             border-radius: 15px;
             padding: 15px; 
-            margin-top: 5px; /* ¡Pegado! */
-            margin-bottom: 5px; /* ¡Pegado! */
+            margin-top: 5px; 
+            margin-bottom: 5px; 
         }
 
         .details-box p {
             font-size: 1rem; 
-            margin: 3px 0; /* Margen muy reducido */
+            margin: 3px 0; 
             font-weight: bold;
         }
         
@@ -117,20 +164,9 @@
             transition: transform 0.8s ease-out 0.2s, opacity 0.8s ease-out 0.2s;
         }
 
-        /* Posición inicial (fuera de lugar) */
-        .car-left {
-            transform: translateX(-100px); 
-        }
-
-        .car-right {
-            transform: translateX(100px); 
-        }
-
-        /* Estado final (cuando se activa por JS) */
-        .car-divider.active {
-            opacity: 1; 
-            transform: translateX(0); 
-        }
+        .car-left { transform: translateX(-100px); }
+        .car-right { transform: translateX(100px); }
+        .car-divider.active { opacity: 1; transform: translateX(0); }
         
         /* --- ESTILOS PARA EL MAPA --- */
         .map-container {
@@ -154,15 +190,26 @@
         /* --- Ajustes para móviles --- */
         @media (max-width: 600px) {
             body { padding: 10px; }
-            .content { padding: 10px 15px 10px 15px; } /* Padding superior de 10px */
+            .content { padding: 10px 15px 10px 15px; } 
             
-            /* ===== CAMBIO: Logo en móvil ===== */
+            /* ===== CAMBIO: Logo en móvil más compacto ===== */
             .hotwheels-logo-header { 
-                max-width: 70%; /* Reducido de 80% a 70% */
+                max-width: 70%; 
+                margin-bottom: 0; /* Pegado */
             }
 
-            .content h2 { font-size: 2rem; }
+            .content h2 { 
+                font-size: 2rem; 
+                margin-top: 0; /* Pegado */
+            }
             .content p { font-size: 1rem; }
+            
+            /* ===== CAMBIO: Contador en móvil ===== */
+            #countdown {
+                font-size: 1rem;
+                padding: 8px;
+            }
+
             .details-box { padding: 10px; }
             .details-box p { font-size: 0.9rem; }
             .cta-button { font-size: 1.4rem; padding: 8px 20px; }
@@ -183,6 +230,8 @@
             
             <h2>¡[Nombre del Niño] Cumple 6!</h2>
             
+            <div id="countdown">¡Faltan <span>-</span> Días, <span>-</span> Hr, <span>-</span> Min!</div>
+            
             <img src="carro1.png" alt="Auto Hot Wheels 1" class="car-divider car-left">
             
             <div class="details-box" id="details-section">
@@ -193,7 +242,7 @@
 
             <div class="map-container">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3734.331278912419!2d-100.4468603256001!3d20.615555400589146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d35a57a0c10979%3A0x8003669464b586e!2sParque%20Infantil%20La%20Mexiquita!5e0!3m2!1ses!2smx!4v1730076495048!5m2!1ses!2smx" 
+                    src="http://googleusercontent.com/maps/google.com/1" 
                     allowfullscreen="" 
                     loading="lazy" 
                     referrerpolicy="no-referrer-when-downgrade">
@@ -217,8 +266,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
+            // --- Script para Animación de Autos ---
             const animatedElements = document.querySelectorAll('.car-divider');
-
             const observer = new IntersectionObserver( (entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -234,6 +283,39 @@
             animatedElements.forEach(el => {
                 observer.observe(el);
             });
+
+            // --- Script para el Contador Regresivo ---
+            
+            // ===== CONFIGURA LA FECHA DEL EVENTO AQUÍ =====
+            // Formato: Año, Mes (0-11), Día, Hora (0-23), Minuto, Segundo
+            // El mes 10 es Noviembre (porque Enero es 0)
+            const targetDate = new Date(new Date().getFullYear(), 10, 15, 14, 0, 0).getTime();
+            // ===============================================
+
+            const countdownElement = document.getElementById('countdown');
+
+            // Actualiza el contador cada segundo
+            const countdownInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                // Cálculos de tiempo
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Muestra el resultado
+                if (distance > 0) {
+                    countdownElement.innerHTML = `¡Faltan <span>${days}</span> Días, <span>${hours}</span> Hr, <span>${minutes}</span> Min!`;
+                } else {
+                    // Si la fecha ya pasó
+                    clearInterval(countdownInterval);
+                    countdownElement.innerHTML = "¡LA FIESTA COMENZÓ!";
+                    countdownElement.style.color = "#005A9C"; // Cambia de color
+                    countdownElement.style.backgroundColor = "#FCEE21"; // Amarillo
+                }
+            }, 1000);
 
         });
     </script>
